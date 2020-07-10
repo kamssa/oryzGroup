@@ -1,1 +1,27 @@
-<p>header works!</p>
+<mat-toolbar color="warn">
+  <mat-toolbar-row fxLayoutAlign="space-between center">
+    <div fxLayout="row">
+      <button mat-button>
+        <img class="logo" src="assets/logo/logo.png">
+      </button>
+      <div *ngIf="!devicesXs">
+        <button mat-button routerLink="accueil">Accueil</button>
+        <button mat-button routerLink="finance">Gestion Financière</button>
+        <button mat-button routerLink="technique">Gestion Technique</button>
+      </div>
+    </div>
+    <div>
+      <button mat-icon-button>
+        <mat-icon *ngIf="devicesXs">more_vert</mat-icon>
+        <span *ngIf="!devicesXs">Menu</span>
+      </button>
+    </div>
+
+  </mat-toolbar-row>
+  <mat-toolbar-row *ngIf="devicesXs" fxLayoutAlign="space-between end">
+    <button mat-button>Accueil</button>
+    <button mat-button routerLink="finance">Gestion Financière</button>
+    <button mat-button routerLink="technique">Gestion Technique</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
