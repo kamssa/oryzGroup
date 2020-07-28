@@ -24,7 +24,7 @@ export class ListeSiteTravauComponent implements OnInit {
   selectedTravaux: Travaux;
   messageSucces: string;
   messageServiceErreur: string;
-  statut: number;
+  statut: number ;
   resultat: Travaux[] = [];
   oTravaux: Observable<Travaux[]>;
   searchTravauxSource = new BehaviorSubject<string>('');
@@ -41,7 +41,7 @@ export class ListeSiteTravauComponent implements OnInit {
     this.oTravaux = this.searchTravauxSource
       .pipe(debounceTime(300),
         distinctUntilChanged(),
-        switchMap(mc => mc ? this.siteTravauxService.rechercheTravauxParMc(mc)
+        switchMap(mc => mc ?  this.siteTravauxService.rechercheTravauxParMc(mc)
           : this.siteTravauxService.rechercheTravauxParMc(''))
       );
     this.oTravaux.subscribe(result => {

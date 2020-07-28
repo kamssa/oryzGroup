@@ -95,7 +95,7 @@ export class EditAchatTravauxComponent implements OnInit {
       new Date(),
       null,
       null,
-       detail['']);
+       [detail]);
     console.log(achatTravaux);
   }
   addNewRows(){
