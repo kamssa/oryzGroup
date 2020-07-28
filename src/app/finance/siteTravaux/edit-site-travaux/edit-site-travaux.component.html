@@ -1,0 +1,69 @@
+<div class="main-div">
+  <div *ngIf="editMode; else new">
+    <mat-card>Modifier Chantier</mat-card>
+    <br>
+    <div class="container">
+      <form [formGroup]="createSiteForm" (ngSubmit)="onSubmit()">
+        <ul class="flex-outer">
+          <li formGroupName="site">
+            <label for="nom" class="lelabel">Le nom du site</label>
+            <input type="text" id="nom" placeholder="Entrer le nom du site" formControlName="nom">
+          </li>
+          <li>
+            <label for="libelle" class="lelabel">Le type de travail</label>
+            <input type="text" id="libelle" placeholder="Enter le type de travail" formControlName="libelle">
+          </li>
+          <li>
+            <label for="budget" class="lelabel">Le budget</label>
+            <input type="text" id="budget" placeholder="Enter le budget" formControlName="budget">
+          </li>
+          <li>
+            <label for="accompte" class="lelabel">L'accompte</label>
+            <input type="text" id="accompte" placeholder="Enter l'accompte" formControlName="accompte">
+          </li>
+          <li>
+            <button type="submit">Enregistrer</button>
+          </li>
+        </ul>
+      </form>
+    </div>
+
+  </div>
+  <ng-template #new>
+
+    <br>
+    <div class="well">
+      <mat-card>Nouveau Chantier</mat-card>
+      <br>
+      <div class="container">
+        <form [formGroup]="createSiteForm" (ngSubmit)="onSubmit()">
+          <ul class="flex-outer">
+            <li formGroupName="site">
+              <label for="nom" class="lelabel">Le nom du site</label>
+              <input type="text" id="nom" placeholder="Entrer le nom du site" formControlName="nom">
+            </li>
+            <li>
+              <label for="libelle" class="lelabel">Le type de travail</label>
+              <input type="text" id="libelle" placeholder="Enter le type de travail" formControlName="libelle">
+            </li>
+            <li>
+              <label for="budget" class="lelabel">Le budget</label>
+              <input type="text" id="budget" placeholder="Enter le budget" formControlName="budget">
+            </li>
+            <li>
+              <label for="accompte" class="lelabel">L'accompte</label>
+              <input type="text" id="accompte" placeholder="N° du bon" formControlName="accompte">
+            </li>
+            <li>
+              <button type="submit">Enregistrer</button>
+            </li>
+          </ul>
+        </form>
+
+      </div>
+
+    </div>
+  </ng-template>
+</div>
+
+

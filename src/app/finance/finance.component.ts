@@ -12,4 +12,7 @@ export class FinanceComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  search(value: string) {
+
+  }
 }

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../service/auth.service';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {User} from "../../model/User";
 
 @Component({
   selector: 'app-connexion',
@@ -13,39 +15,72 @@ export class ConnexionComponent implements OnInit {
   public loginInvalid: boolean;
   private formSubmitAttempt: boolean;
   private returnUrl: string;
+  submitted = false;
+  loading = false;
+  error = '';
+  result: any;
+  durationInSeconds = 5;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  isuAth: boolean;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) {
+    // redirect to home if already logged in
+    if (this.authService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
   }
 
-  async ngOnInit() {
+  ngOnInit(): void {
+    this.initForm();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+  }
+// convenience getter for easy access to form fields
+  get f() {
+    return this.form.controls;
+  }
+  initForm() {
     this.form = this.fb.group({
-      username: ['', Validators.email],
+      name: [''],
+      email: ['', Validators.email],
       password: ['', Validators.required]
     });
 
-    if (await this.authService.checkAuthenticated()) {
-      await this.router.navigate([this.returnUrl]);
-    }
   }
 
-  async onSubmit() {
-    this.loginInvalid = false;
-    this.formSubmitAttempt = false;
-    if (this.form.valid) {
-      try {
-        const username = this.form.get('username').value;
-        const password = this.form.get('password').value;
-        await this.authService.login(username, password);
-      } catch (err) {
-        this.loginInvalid = true;
+  onSubmit() {
+    this.submitted = true;
+    const email = this.form.get('email').value;
+    const password = this.form.get('password').value;
+    this.loading = true;
+    const  user = new User(null,null,'', email, password);
+    this.authService.login(user).subscribe(data => {
+      if (data.body){
+        this.snackBar.open('Succès de la connexion!', '', {
+          duration: 3000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+
+        });
+        this.isuAth = true;
+        console.log('auth reussi');
+      }else {
+        this.isuAth = false;
       }
-    } else {
-      this.formSubmitAttempt = true;
-    }
+      this.router.navigate([this.returnUrl]);
+    },
+      error => {
+        this.error = "email ou mot de passe oublié";
+        this.loading = false;
+      });
+    this.router.navigate(['accueil']);
   }
+
 }

@@ -1,50 +1,50 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {Router} from '@angular/router';
-import * as OktaAuth from '@okta/okta-auth-js';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {User} from '../model/User';
+import {map} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
+import {Resultat} from '../model/resultat';
+import * as jwt_decode from 'jwt-decode';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  CLIENT_ID = '0oak0x9v2eulKJxQC4x6';
-  ISSUER = 'https://dev-550710.okta.com'
-  LOGIN_REDIRECT_URI = 'http://localhost:4200/callback';
-  LOGOUT_REDIRECT_URI = 'http://localhost:4200/';
-  private authClient = new OktaAuth({
-    issuer: this.ISSUER,
-    clientId: this.CLIENT_ID
-  });
-
-  public isAuthenticated = new BehaviorSubject<boolean>(false);
-
-  constructor(private router: Router) {
+  private currentUserSubject: BehaviorSubject<any>;
+  public currentUser: Observable<any>;
+  constructor(private http: HttpClient, private helper: JwtHelperService) {
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  async checkAuthenticated() {
-    const authenticated = await this.authClient.session.exists();
-    this.isAuthenticated.next(authenticated);
-    return authenticated;
+  public get currentUserValue(): any {
+    return this.currentUserSubject.value;
+  }
+  login(user: User) {
+    return this.http.post<Resultat<any>>(`${environment.apiUrl}/api/auth/signin`, user)
+      .pipe(map(res => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('currentUser', JSON.stringify(res.body.body.accessToken));
+        this.currentUserSubject.next(res.body.body.accessToken);
+
+        const decoded = jwt_decode(res.body.body.accessToken);
+        const exp = this.helper.isTokenExpired(res.body.body.accessToken);
+        console.log(exp);
+        console.log(decoded.exp);
+        console.log(res);
+        return res;
+      }));
   }
 
-  async login(username: string, password: string) {
-    const transaction = await this.authClient.signIn({username, password});
-
-    if (transaction.status !== 'SUCCESS') {
-      throw Error('We cannot handle the ' + transaction.status + ' status');
-    }
-    this.isAuthenticated.next(true);
-
-    this.authClient.session.setCookieAndRedirect(transaction.sessionToken);
+  logout() {
+    // remove user from local storage to log user out
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
   }
 
-  async logout(redirect: string) {
-    try {
-      await this.authClient.signOut();
-      this.isAuthenticated.next(false);
-      this.router.navigate([redirect]);
-    } catch (err) {
-      console.error(err);
-    }
-  }
+
+
 }

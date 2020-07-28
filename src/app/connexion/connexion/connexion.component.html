@@ -1,23 +1,26 @@
-<mat-card>
-  <mat-card-content>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <h2>Connexion</h2>
-      <mat-error *ngIf="loginInvalid">
-        The username and password were not recognised
-      </mat-error>
-      <mat-form-field class="full-width-input">
-        <input matInput placeholder="Email" formControlName="username" required>
-        <mat-error>
-          Entrez un email valide s'il vous plait
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-width-input">
-        <input matInput type="password" placeholder="Password" formControlName="password" required>
-        <mat-error>
-          Entrez un mot de passe valide s'il vous plait
-        </mat-error>
-      </mat-form-field>
-      <button mat-raised-button color="primary">Login</button>
-    </form>
-  </mat-card-content>
-</mat-card>
+<div class="container">
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="assets/logo/logo.png" id="icon" alt="User Icon" />
+      </div>
+
+      <!-- Login Form -->
+      <form [formGroup]="form"  (ngSubmit)="onSubmit()">
+        <input type="text" id="email" class="fadeIn second" name="email" formControlName="email"  placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+        <input type="text" id="password" class="fadeIn third" name="password" formControlName="password" placeholder="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+        <input type="submit" class="fadeIn fourth" value="Connexion">
+        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+      </form>
+
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <a class="underlineHover" href="#"> Password oublié ?</a>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,27 +1,38 @@
 <mat-toolbar color="warn">
   <mat-toolbar-row fxLayoutAlign="space-between center">
     <div fxLayout="row">
+      <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
       <button mat-button>
         <img class="logo" src="assets/logo/logo.png">
       </button>
       <div *ngIf="!devicesXs">
-        <button mat-button routerLink="accueil">Accueil</button>
-        <button mat-button routerLink="finance">Gestion Financière</button>
-        <button mat-button routerLink="technique">Gestion Technique</button>
+        <button mat-raised-button color="warn" routerLink="finance">Gestion Financière</button>
+        <button mat-raised-button color="warn" routerLink="technique">Gestion Technique</button>
+        <button mat-raised-button color="warn" routerLink="technique">Banque</button>
       </div>
+
     </div>
     <div>
-      <button mat-icon-button>
+      <button mat-fab color="warn">
         <mat-icon *ngIf="devicesXs">more_vert</mat-icon>
-        <span *ngIf="!devicesXs">Menu</span>
+        <span *ngIf="!devicesXs" (click)="logout()">Logout</span>
       </button>
     </div>
 
   </mat-toolbar-row>
   <mat-toolbar-row *ngIf="devicesXs" fxLayoutAlign="space-between end">
-    <button mat-button>Accueil</button>
-    <button mat-button routerLink="finance">Gestion Financière</button>
-    <button mat-button routerLink="technique">Gestion Technique</button>
+    <button mat-raised-button color="warn">Accueil</button>
+    <button mat-raised-button color="warn" routerLink="finance">Gestion Financière</button>
+    <button mat-raised-button color="warn" routerLink="technique">Gestion Technique</button>
+    <button mat-raised-button color="warn" routerLink="technique">Banque</button>
   </mat-toolbar-row>
 </mat-toolbar>
+<mat-sidenav-container >
+  <mat-sidenav #snav [mode]="mode.value">
 
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

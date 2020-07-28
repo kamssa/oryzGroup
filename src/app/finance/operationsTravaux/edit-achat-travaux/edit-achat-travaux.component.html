@@ -1,0 +1,104 @@
+<div class="main-div">
+  <div *ngIf="editMode; else newAchat">
+    <div class="">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title> modifier un achat ou une location pour les travaux</mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <form [formGroup]="achatTravauxForm" (ngSubmit)="onSubmit()" novalidate *ngIf="achatTravauxForm">
+          <mat-form-field>
+            <input matInput placeholder="Site" formControlName="site">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Travaux" formControlName="travaux">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Libelle" formControlName="libelle">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="quantite" formControlName="quantite">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="prix" formControlName="prix">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="montant" formControlName="montant">
+          </mat-form-field>
+          <hr>
+          <div>
+            <button mat-raised-button color="primary" type="submit"> Modifier
+            </button>
+            <button mat-raised-button color="accent" type="button">Annuler
+            </button>
+          </div>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+  <ng-template #newAchat>
+    <mat-card> Effectuer un nouvel achat  pour les travaux</mat-card>
+    <br>
+    <div class="well">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title></mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <form [formGroup]="achatTravauxForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="achat">
+
+            <mat-form-field>
+              <input matInput type="number" placeholder="Total" formControlName="total">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput type="date" placeholder="Date" formControlName="date">
+            </mat-form-field>
+            <div class="row">
+              <div formArrayName="itemsRows">
+                <div *ngFor="let itemrow of achatTravauxForm.controls.itemsRows['controls']; let i=index" [formGroupName]="i">
+                  <mat-action-row>
+                    <button type="button" mat-mini-fab color="warn" (click)="deleteRow(i)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </mat-action-row>
+                  <mat-form-field>
+                    <input matInput placeholder="quantite" formControlName="quantite">
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <input matInput placeholder="montant" formControlName="montant">
+                  </mat-form-field>
+                  <mat-form-field formGroupName="materiaux">
+                    <input matInput placeholder="materiaux" formControlName="libelle">
+                  </mat-form-field>
+                  <mat-form-field formGroupName="fournisseur">
+                    <input matInput placeholder="fournisseur" formControlName="libelle">
+                  </mat-form-field>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+            <mat-action-row>
+              <button type="button" mat-raised-button color="warn" (click)="addNewRows()">
+                Ajouter un achat
+              </button>
+            </mat-action-row>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <button mat-raised-button class="boutonEnr" type="submit"> Enregistrer
+            </button>
+            <button mat-raised-button class="boutonAnn" type="button" type="reset" >Annuler
+            </button>
+          </div>
+          </div>
+        </form>
+      </mat-card>
+    </div>
+  </ng-template>
+</div>
+
+
