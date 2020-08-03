@@ -32,7 +32,12 @@ import { ListeSiteTravauComponent } from './finance/siteTravaux/liste-site-trava
 import { DetailSiteTravauxComponent } from './finance/siteTravaux/detail-site-travaux/detail-site-travaux.component';
 import { EditSiteTravauxComponent } from './finance/siteTravaux/edit-site-travaux/edit-site-travaux.component';
 import { EditOperationTravauxComponent } from './finance/operationsTravaux/edit-operation-travaux/edit-operation-travaux.component';
-import { DetailOperationTravauxComponent } from './finance/operationsTravaux/detail-operation-travaux/detail-operation-travaux.component';
+import { ListAchatComponent } from './finance/operationsTravaux/list-achat/list-achat.component';
+import { ListeSiteTravauxOperationComponent } from './finance/siteTravaux/liste-site-travaux-operation/liste-site-travaux-operation.component';
+import {AchatTravauxService} from "./service/achat-travaux.service";
+import {MatMenuModule} from "@angular/material/menu";
+import { EditAchatComponent } from './finance/operationsTravaux/edit-achat/edit-achat.component';
+
 
 @NgModule({
   declarations: [
@@ -55,21 +60,24 @@ import { DetailOperationTravauxComponent } from './finance/operationsTravaux/det
     DetailSiteTravauxComponent,
     EditSiteTravauxComponent,
     EditOperationTravauxComponent,
-    DetailOperationTravauxComponent
+    ListAchatComponent,
+    ListeSiteTravauxOperationComponent,
+    EditAchatComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        FlexLayoutModule,
-        MaterialModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FlexLayoutModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatMenuModule,
 
-    ],
+  ],
   providers: [AuthService, AuthGuardService,
-    SteTravauxService,
+    SteTravauxService, AchatTravauxService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

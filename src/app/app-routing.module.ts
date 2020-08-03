@@ -9,6 +9,8 @@ import {ListeSiteTravauComponent} from "./finance/siteTravaux/liste-site-travau/
 import {DetailSiteTravauxComponent} from "./finance/siteTravaux/detail-site-travaux/detail-site-travaux.component";
 import {EditSiteTravauxComponent} from "./finance/siteTravaux/edit-site-travaux/edit-site-travaux.component";
 import {EditAchatTravauxComponent} from "./finance/operationsTravaux/edit-achat-travaux/edit-achat-travaux.component";
+import {ListeSiteTravauxOperationComponent} from "./finance/siteTravaux/liste-site-travaux-operation/liste-site-travaux-operation.component";
+import {EditAchatComponent} from "./finance/operationsTravaux/edit-achat/edit-achat.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'accueil', pathMatch: 'full'},
@@ -32,7 +34,12 @@ const routes: Routes = [
         children: [
           {
             path: 'detail/:id',
-            component: DetailSiteTravauxComponent
+            component: ListeSiteTravauxOperationComponent
+
+          },
+          {
+            path: 'achat/:id',
+            component: EditAchatComponent
 
           },
           {

@@ -1,10 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {AchatTravaux} from '../../../model/AchatTravaux';
 import {Router} from '@angular/router';
-import {DetailAchatTravaux} from '../../../model/DtailAchat';
-import {Materiaux} from "../../../model/Materiaux";
-import {Fournisseur} from "../../../model/Fournisseur";
+import {AchatTravauxService} from '../../../service/achat-travaux.service';
+
 
 @Component({
   selector: 'app-edit-achat-travaux',
@@ -14,16 +13,20 @@ import {Fournisseur} from "../../../model/Fournisseur";
 export class EditAchatTravauxComponent implements OnInit {
   achatTravauxForm: FormGroup;
   editMode = false;
+
   @Input() travauxId: number;
-  montant: number;
+  now = Date.now();
+  @ViewChild("value", {static : false}) valueInput: ElementRef;
+  @ViewChild("quantite", {static : false}) quantiteInput: ElementRef;
+  @ViewChild("frais", {static : false}) fraisInput: ElementRef;
 
 
-  constructor(private  fb: FormBuilder, private  router: Router) { }
+  constructor(private  fb: FormBuilder, private  router: Router, private achatService: AchatTravauxService) { }
 
   ngOnInit(): void {
     this.initForm();
+    console.log(this.travauxId);
   }
-
   initForm(){
     this.achatTravauxForm = this.fb.group({
       id: '',
@@ -31,27 +34,19 @@ export class EditAchatTravauxComponent implements OnInit {
       libelle: '',
       date: '',
       total: '',
-      travaux: this.fb.group({
-        id: '',
-        version: '',
-        libelle: '',
-        budget: '',
-        accompte: ''
-      }),
-      itemsRows : this.fb.array([this.initItemRows()])
-
+      travauxId: '',
+      detailAchatTravaux : this.fb.array([this.initItemRows()])
     });
   }
   get formArr(){
-  return this.achatTravauxForm.get('itemsRows') as FormArray;
-
+  return this.achatTravauxForm.get('detailAchatTravaux') as FormArray;
   }
   initItemRows(){
-   return this.fb.group({
+    return this.fb.group({
          id: [''],
          version: [''],
-         prix_unitaire: [''],
-         quantite: [''],
+         prix_unitaire: '',
+         quantite: '',
          frais: [''],
          montant: [''],
          materiaux: this.fb.group({
@@ -66,37 +61,28 @@ export class EditAchatTravauxComponent implements OnInit {
      }),
    });
   }
+  calcul() {
+  return  this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value +
+      parseInt(this.fraisInput.nativeElement.value);
+   // console.log(montant);
+  }
   onSubmit(){
-    const  formValue = this.achatTravauxForm.value;
-    let mat = new Materiaux(
-      1,
-      0,
-      formValue['materiaux']
-      );
-    const four  = new Fournisseur(
+    let  formValue = this.achatTravauxForm.value;
+    console.log(formValue['detailAchatTravaux']);
+   // console.log(formValue.itemsRows);
 
-      null,
-      0,
-      formValue['fournisseur']
-    );
-    const  detail = new DetailAchatTravaux(
-      null,
-      null,
-      formValue['quantite'],
-      formValue['prix_unutaire'],
-      formValue['frais'],
-      formValue['montant'],
-      mat,
-      four);
-    const achatTravaux = new AchatTravaux(
-      null,
-      null,
-      "Achat",
-      new Date(),
-      null,
-      null,
-       [detail]);
-    console.log(achatTravaux);
+
+  let achat = new AchatTravaux(null,
+     null,
+     'Achat',
+     null,
+     null,
+     this.travauxId,
+     formValue['detailAchatTravaux']);
+     this.achatService.ajoutAchatTravaux(achat).subscribe(data =>{
+       console.log('Achat enregistrer', data.body);
+     });
+     console.log('voir les achats', achat);
   }
   addNewRows(){
   this.formArr.push(this.initItemRows());

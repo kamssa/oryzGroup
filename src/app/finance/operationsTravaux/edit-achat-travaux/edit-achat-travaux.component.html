@@ -37,47 +37,56 @@
     </div>
   </div>
   <ng-template #newAchat>
-    <mat-card> Effectuer un nouvel achat  pour les travaux</mat-card>
-    <br>
-    <div class="well">
+    <form [formGroup]="achatTravauxForm" (ngSubmit)="onSubmit()" novalidate>
       <mat-card>
-        <mat-card-header>
-          <mat-card-title></mat-card-title>
-          <mat-card-subtitle></mat-card-subtitle>
-        </mat-card-header>
-        <form [formGroup]="achatTravauxForm" (ngSubmit)="onSubmit()" novalidate>
+        <mat-card-header>Effectuer un nouvel achat pour les travaux</mat-card-header>
+        <mat-form-field>
+          <input mat-chip matInput type="text"  formControlName="total">
+        </mat-form-field>
+        <mat-form-field>
+          <input mat-chip matInput type="date"  formControlName="date">
+        </mat-form-field>
+      </mat-card>
+      <br>
+      <div class="well">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title></mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+          </mat-card-header>
+
           <div class="achat">
 
-            <mat-form-field>
-              <input matInput type="number" placeholder="Total" formControlName="total">
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput type="date" placeholder="Date" formControlName="date">
-            </mat-form-field>
+
             <div class="row">
-              <div formArrayName="itemsRows">
-                <div *ngFor="let itemrow of achatTravauxForm.controls.itemsRows['controls']; let i=index" [formGroupName]="i">
+              <div formArrayName="detailAchatTravaux">
+                <div *ngFor="let itemrow of achatTravauxForm.controls.detailAchatTravaux['controls']; let i=index"
+                     [formGroupName]="i">
                   <mat-action-row>
                     <button type="button" mat-mini-fab color="warn" (click)="deleteRow(i)">
                       <mat-icon>delete</mat-icon>
                     </button>
                   </mat-action-row>
-                  <mat-form-field>
-                    <input matInput placeholder="quantite" formControlName="quantite">
+                  <mat-form-field formGroupName="materiaux">
+                    <input  matInput placeholder="Materiel" formControlName="libelle">
                   </mat-form-field>
-
+                  <mat-form-field>
+                    <input #value matInput type="number" placeholder="Prix unitaire" formControlName="prix_unitaire">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input  #quantite type="number" matInput placeholder="quantite" formControlName="quantite">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input  #frais type="number" matInput placeholder="frais" formControlName="frais">
+                  </mat-form-field>
                   <mat-form-field>
                     <input matInput placeholder="montant" formControlName="montant">
                   </mat-form-field>
-                  <mat-form-field formGroupName="materiaux">
-                    <input matInput placeholder="materiaux" formControlName="libelle">
-                  </mat-form-field>
+
                   <mat-form-field formGroupName="fournisseur">
                     <input matInput placeholder="fournisseur" formControlName="libelle">
                   </mat-form-field>
                 </div>
-
-
 
 
               </div>
@@ -85,19 +94,21 @@
 
             <mat-action-row>
               <button type="button" mat-raised-button color="warn" (click)="addNewRows()">
-                Ajouter un achat
+               <mat-icon> </mat-icon> Ajouter un achat
               </button>
             </mat-action-row>
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <button mat-raised-button class="boutonEnr" type="submit"> Enregistrer
-            </button>
-            <button mat-raised-button class="boutonAnn" type="button" type="reset" >Annuler
-            </button>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <button mat-raised-button class="boutonEnr" type="submit"> Enregistrer
+              </button>
+              <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler
+              </button>
+            </div>
           </div>
-          </div>
-        </form>
-      </mat-card>
-    </div>
+
+        </mat-card>
+
+      </div>
+    </form>
   </ng-template>
 </div>
 

@@ -8,7 +8,7 @@ constructor(public id?: number,
             public libelle?: string,
             public date?: Date,
             public total?: number,
-            public travaux?: Travaux,
-            public detailAchat?: DetailAchatTravaux[]) {
+            public travauxId?: number,
+            public detailAchatTravaux?: DetailAchatTravaux[]) {
 }
 }

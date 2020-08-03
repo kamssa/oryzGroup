@@ -38,7 +38,9 @@ const  materialComponents = [
   MatTableModule,
   MatTooltipModule,
   MatDividerModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatPaginatorModule,
+  MatExpansionModule
 
 ];
 

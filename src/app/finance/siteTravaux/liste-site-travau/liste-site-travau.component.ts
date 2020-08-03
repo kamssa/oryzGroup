@@ -1,11 +1,11 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Travaux} from "../../../model/travaux";
-import {BehaviorSubject, Observable} from "rxjs";
-import {Router} from "@angular/router";
-import {SteTravauxService} from "../../../service/ste-travaux.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Travaux} from '../../../model/travaux';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {Router} from '@angular/router';
+import {SteTravauxService} from '../../../service/ste-travaux.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-liste-site-travau',
@@ -28,7 +28,6 @@ export class ListeSiteTravauComponent implements OnInit {
   resultat: Travaux[] = [];
   oTravaux: Observable<Travaux[]>;
   searchTravauxSource = new BehaviorSubject<string>('');
-  pathNullImage = './assets/images/image3.jpg';
 
   constructor(
     private  router: Router, private  fb: FormBuilder,
@@ -126,7 +125,6 @@ export class ListeSiteTravauComponent implements OnInit {
   }
 
   search(mc: string) {
-
     this.searchTravauxSource.next(mc);
   }
 
@@ -140,5 +138,11 @@ export class ListeSiteTravauComponent implements OnInit {
     setTimeout(() => {
       this.messageServiceErreur = '';
     }, 5000);
+  }
+  /*detailAchat(travail: Travaux){
+    this.router.navigate(['site/liste/detail', this.selectedTravaux.id]);
+  }*/
+  onAchat(travail: Travaux) {
+    this.router.navigate(['site/liste/achat', travail.id]);
   }
 }

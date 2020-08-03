@@ -1,0 +1,30 @@
+
+<div *ngIf="travaux">
+  <div class="main-div" fxLayoutAlign="space-evenly" *ngIf="!devicesXs">
+    <h2 class="site">Site
+      <h3 class="travaux">{{travaux.site.nom}}</h3></h2>
+    <h2 class="site">Numero du bon<h3 class="travaux">{{travaux.budget | currency:'XOF':false}}</h3></h2>
+    <h2 class="site">Reste<h3 class="travaux">{{travaux.budget | currency:'XOF':false}}</h3></h2>
+  </div>
+  <br>
+  <mat-divider></mat-divider>
+  <div class="div-second">
+    <mat-list>
+      <mat-list-item>
+        <button mat-button (click)="achat()" color="accent">Achat</button>
+      </mat-list-item>
+
+    </mat-list>
+
+  </div>
+  <div>
+    <app-edit-achat-travaux travauxId="{{travauxId}}" *ngIf="edit==0"></app-edit-achat-travaux>
+    <!--
+        <app-edit-achat-travaux travauxId="{{travauxId}}" *ngIf="edit==0"></app-edit-achat-travaux>
+    -->
+
+  </div>
+</div>
+<div>
+
+</div>
