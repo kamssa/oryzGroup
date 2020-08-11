@@ -17,6 +17,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule, NativeDateAdapter} from "@angular/material/core";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSortModule} from "@angular/material/sort";
 
 const  materialComponents = [
   MatToolbarModule,
@@ -40,7 +44,11 @@ const  materialComponents = [
   MatDividerModule,
   MatSnackBarModule,
   MatPaginatorModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatDialogModule,
+  MatSortModule
 
 ];
 

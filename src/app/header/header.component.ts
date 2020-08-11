@@ -10,10 +10,12 @@ import {Router} from "@angular/router";
 })
 export class HeaderComponent implements OnInit {
   @Input() devicesXs: boolean;
+   @Input()isAuthenticated: boolean;
   mode = new FormControl('over');
   constructor(private  authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+   
   }
 
   doFilter(value: any) {

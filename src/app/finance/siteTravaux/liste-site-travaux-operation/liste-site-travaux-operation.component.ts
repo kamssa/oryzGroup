@@ -1,19 +1,18 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from "@angular/material/paginator";
-import {MatTableDataSource} from "@angular/material/table";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {SteTravauxService} from "../../../service/ste-travaux.service";
-import {MediaChange, MediaObserver} from "@angular/flex-layout";
-import {Observable, Subscription} from "rxjs";
-import {Travaux} from "../../../model/travaux";
-import {switchMap} from "rxjs/operators";
+import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {SteTravauxService} from '../../../service/ste-travaux.service';
+import {MediaChange, MediaObserver} from '@angular/flex-layout';
+import {Observable, Subscription} from 'rxjs';
+import {Travaux} from '../../../model/travaux';
+import {switchMap} from 'rxjs/operators';
+import {AchatTravauxService} from '../../../service/achat-travaux.service';
 
 @Component({
   selector: 'app-liste-site-travaux-operation',
   templateUrl: './liste-site-travaux-operation.component.html',
   styleUrls: ['./liste-site-travaux-operation.component.scss']
 })
-export class ListeSiteTravauxOperationComponent implements OnInit {
+export class ListeSiteTravauxOperationComponent implements OnInit{
   name: any;
   id: number;
   edit: number;
@@ -21,13 +20,18 @@ export class ListeSiteTravauxOperationComponent implements OnInit {
   mediaSub: Subscription;
   travaux: Travaux;
   travauxId: number;
+  solde: number;
+  panelOpenState = false;
   travaux$: Observable<Travaux>;
+  montant: number;
+
   constructor(private route: ActivatedRoute,
-              private travauxService: SteTravauxService, private  router: Router,
-              private mediaObserver: MediaObserver) {
+              private travauxService: SteTravauxService,
+              private  router: Router,
+              private mediaObserver: MediaObserver,
+              private achatTravauxService: AchatTravauxService) {
 
   }
-
   ngOnInit(): void {
     this.mediaSub = this.mediaObserver.media$.subscribe(
       (result: MediaChange) => {
@@ -39,18 +43,16 @@ export class ListeSiteTravauxOperationComponent implements OnInit {
         this.travauxService.getTravauxById(+params.get('id')))
     ).subscribe(result => {
       this.travaux = result.body;
+      console.log(this.travaux);
       this.travauxId = result.body.id;
-    });
-  }
-  getTravauxById(){
-    this.travauxService.getTravauxById(this.id).subscribe( res => {
-      this.travaux = res.body;
-    });
-  }
+      this.achatTravauxService.getAchatTravauxByTravaux(this.travauxId).subscribe( resultat => {
+        const valeurInitiale = 0;
 
+      });
+    });
+  }
   achat() {
     this.edit = 0;
-
   }
 
   salaire() {
@@ -71,10 +73,21 @@ export class ListeSiteTravauxOperationComponent implements OnInit {
 
   autre() {
     this.edit = 6;
-  }
+   }
 
   location() {
     this.edit = 2;
   }
+
+  montantChange($event: number) {
+    this.montant = $event;
+    console.log('voir le output' , this.montant);
+    if ($event){
+      this.travauxService.getTravauxById(this.travauxId).subscribe(res => {
+      this.travaux = res.body;
+      });
+    }
   }
+
+}
 

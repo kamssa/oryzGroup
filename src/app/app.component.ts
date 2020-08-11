@@ -6,6 +6,7 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 import {ConnexionComponent} from "./connexion/connexion/connexion.component";
 
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,13 +16,17 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges{
   title = 'oryzGroup';
   mediaSub: Subscription;
   devicesXs: boolean;
-  isAuthenticated = false;
+  isAuthenticated: any;
   @ViewChild(ConnexionComponent) childReference;
   exempleParent: boolean;
 
   constructor(private mediaObserver: MediaObserver,
               private authService: AuthService,
               private helper: JwtHelperService) {
+               authService.isUserLoggedIn.subscribe(data => {
+                console.log('voir la valeur de auth dans app', data);
+                this.isAuthenticated = data;
+               });
 
   }
 
@@ -29,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges{
 
 
 
-   console.log('voir si la valeur change', this.isAuthenticated);
+   console.log('voir si la valeur change', this.isAuthenticated.next);
   }
    ngOnInit()  {
     this.mediaSub = this.mediaObserver.media$.subscribe(
@@ -45,5 +50,4 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges{
   ngOnDestroy(): void {
     this.mediaSub.unsubscribe();
   }
-
 }

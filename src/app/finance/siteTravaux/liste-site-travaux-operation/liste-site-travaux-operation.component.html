@@ -1,15 +1,30 @@
-
 <div *ngIf="travaux">
-  <div class="main-div" fxLayoutAlign="space-evenly" *ngIf="!devicesXs">
-    <h2 class="site">Site
-      <h3 class="travaux">{{travaux.site.nom}}</h3></h2>
-    <h2 class="site">Numero du bon<h3 class="travaux">{{travaux.budget | currency:'XOF':false}}</h3></h2>
-    <h2 class="site">Reste<h3 class="travaux">{{travaux.budget | currency:'XOF':false}}</h3></h2>
-  </div>
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <p>Les informations sur le chantier</p>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panelOpenState ? 'Fermer' : 'Ouvrir'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <h3 class="site">Site : {{travaux.site.nom}}</h3>
+      <h3 class="site">Numero du bon  : {{travaux.numeroBon}}</h3>
+      <h3 class="site">Nom du chantier : {{travaux.nomChantier }}</h3>
+      <h3 class="site">Budget : {{travaux.budget | number:'1.0-3' }}</h3>
+      <h3 class="site"> Solde : {{travaux.reste | number:'.'}}</h3>
+      <h3 class="site">Dépense : {{travaux.total || 0.0 | number:'.'}}</h3>
+      <h3 class="site">Debut des travaux : {{travaux.date | date: 'dd/MM/yyyy'}}</h3>
+      <h3 class="site">Date de livraison :  {{travaux.dateLivraison | date: 'dd/MM/yyyy'}} </h3>
+      <button mat-button color="primary">Modifier</button>
+    </mat-expansion-panel>
+  </mat-accordion>
   <br>
   <mat-divider></mat-divider>
   <div class="div-second">
-    <mat-list>
+    <mat-list fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap = "10px">
       <mat-list-item>
         <button mat-button (click)="achat()" color="accent">Achat</button>
       </mat-list-item>
@@ -31,9 +46,9 @@
 
   </div>
   <div>
-    <app-list-achat travauxId="{{travauxId}}" *ngIf="edit==0"></app-list-achat>
+    <app-edit-achat-travaux travauxId="{{travauxId}}" *ngIf="edit==0" (change)="montantChange($event)"></app-edit-achat-travaux>
     <app-edit-paiement-salaire-travaux *ngIf="edit==1"></app-edit-paiement-salaire-travaux>
-    <app-edit-location-travaux *ngIf="edit==2"></app-edit-location-travaux>
+    <app-edit-location-travaux  travauxId="{{travauxId}}" *ngIf="edit==2"></app-edit-location-travaux>
     <app-edit-mainouvre-travaux *ngIf="edit==3"></app-edit-mainouvre-travaux>
     <app-edit-paie-loyer *ngIf="edit==4"></app-edit-paie-loyer>
     <app-edit-transp-travaux *ngIf="edit==5"></app-edit-transp-travaux>
@@ -41,5 +56,4 @@
   </div>
 </div>
 <div>
-
 </div>

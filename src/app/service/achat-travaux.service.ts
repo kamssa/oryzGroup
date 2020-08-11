@@ -13,6 +13,7 @@ import {AchatTravaux} from "../model/AchatTravaux";
 })
 export class AchatTravauxService {
   private urlAchat = 'http://localhost:8080/api/achat';
+  private urlAchats = 'http://localhost:8080/api/achats';
 
 
   // observables sources
@@ -37,7 +38,11 @@ export class AchatTravauxService {
 
   ajoutAchatTravaux(achatTravaux: AchatTravaux): Observable<Resultat<AchatTravaux>> {
     console.log('methode du service qui ajoute un achat', achatTravaux);
-    return this.http.post<Resultat<AchatTravaux>>(`${environment.urlAchat}/api/achat`, achatTravaux);
+    return this.http.post<Resultat<AchatTravaux>>(`${environment.apiUrl}/api/achat`, achatTravaux);
+  }
+
+  getAchatTravauxById(id: AchatTravaux): Observable<Resultat<AchatTravaux>> {
+    return this.http.get<Resultat<AchatTravaux>>(`${this.urlAchats}/${id}`);
   }
 
 // recuperer achat par id travaux

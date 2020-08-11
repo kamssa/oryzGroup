@@ -40,8 +40,7 @@ export class ListeSiteTravauComponent implements OnInit {
     this.oTravaux = this.searchTravauxSource
       .pipe(debounceTime(300),
         distinctUntilChanged(),
-        switchMap(mc => mc ?  this.siteTravauxService.rechercheTravauxParMc(mc)
-          : this.siteTravauxService.rechercheTravauxParMc(''))
+        switchMap(mc =>   this.siteTravauxService.rechercheTravauxParMc(mc))
       );
     this.oTravaux.subscribe(result => {
       console.log('voir observable', result);
@@ -144,5 +143,34 @@ export class ListeSiteTravauComponent implements OnInit {
   }*/
   onAchat(travail: Travaux) {
     this.router.navigate(['site/liste/achat', travail.id]);
+  }
+
+  onLocation(travail: Travaux) {
+    this.router.navigate(['site/liste/location', travail.id]);
+
+  }
+
+  onSalaire(travail: Travaux) {
+    this.router.navigate(['site/liste/salaire', travail.id]);
+
+  }
+
+  onLoyer(travail: Travaux) {
+    this.router.navigate(['site/liste/loyer', travail.id]);
+
+  }
+
+  onOeuvre(travail: Travaux) {
+    this.router.navigate(['site/liste/oeuvre', travail.id]);
+
+  }
+
+  onTransport(travail: Travaux) {
+    this.router.navigate(['site/liste/transport', travail.id]);
+
+  }
+
+  onAutres(travail: Travaux) {
+    this.router.navigate(['site/liste/autre', travail.id]);
   }
 }

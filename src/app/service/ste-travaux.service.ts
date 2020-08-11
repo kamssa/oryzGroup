@@ -36,15 +36,14 @@ export class SteTravauxService {
 
   ajoutTravaux(travaux: Travaux): Observable<Resultat<Travaux>> {
     console.log('methode du service qui ajoute un travail', travaux);
-    return this.http.post<Resultat<Travaux>>(`${environment.urlTravaux}/api/travaux`, travaux);
+    return this.http.post<Resultat<Travaux>>(`${environment.apiUrl}/api/travaux`, travaux);
   }
 
   modifierTravaux(travauxModif: Travaux): Observable<Resultat<Travaux>> {
     return this.http.put<Resultat<Travaux>>(this.urlTravaux, travauxModif);
   }
   getTravauxById(id: number): Observable<Resultat<Travaux>> {
-    return this.http.get<Resultat<Travaux>>(`${this.urlTravaux}/${id}`)
-      ;
+    return this.http.get<Resultat<Travaux>>(`${this.urlTravaux}/${id}`);
   }
   rechercheTravauxParMc(mc: string): Observable<Array<Travaux>> {
     return this.http.get<Resultat<Array<Travaux>>>(`${this.urlRecherche}${mc}`)

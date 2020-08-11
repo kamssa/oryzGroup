@@ -7,7 +7,7 @@ constructor(public id?: number,
             public version?: number,
             public libelle?: string,
             public date?: Date,
-            public total?: number,
+            public montant?: number,
             public travauxId?: number,
             public detailAchatTravaux?: DetailAchatTravaux[]) {
 }

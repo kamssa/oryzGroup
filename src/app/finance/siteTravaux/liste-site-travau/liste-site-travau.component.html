@@ -26,25 +26,25 @@
                     </a>
                     <div  fxLayout="row" fxLayoutAlign="space-around center">
                       <button  mat-button color="primary" (click)="onAchat(tr)">Achat</button>
-                      <button  mat-button color="primary">Location</button>
-                      <button  mat-button color="primary">Salaire</button>
+                      <button  mat-button color="primary" (click)="onLocation(tr)">Location</button>
+                      <button  mat-button color="primary" (click)="onSalaire(tr)">Salaire</button>
                       <button  mat-icon-button [matMenuTriggerFor]="menu">
                         <mat-icon>more_vert</mat-icon>
                       </button >
                       <mat-menu #menu = "matMenu" yPosition="above">
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="onLoyer(tr)">
                           <span>Loyer</span>
                         </button>
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="onOeuvre(tr)">
                           <span>Main d'oeuvre</span>
                         </button>
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="onTransport(tr)">
                           <span>Transport</span>
                         </button>
-                          <button mat-menu-item>
+                          <button mat-menu-item (click)="onAutres(tr)">
                             <span>Autres</span>
                           </button>
-                      </mat-menu >
+                      </mat-menu>
                     </div>
                   </div>
 
