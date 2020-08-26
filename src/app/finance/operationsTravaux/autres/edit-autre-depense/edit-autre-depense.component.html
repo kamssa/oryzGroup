@@ -26,14 +26,14 @@
   <div class="div-second">
     <mat-list>
       <mat-list-item>
-        <button mat-button (click)="location()" color="accent">Location</button>
+        <button mat-button (click)="autre()" color="accent">Vor la liste des autres dépenses</button>
       </mat-list-item>
 
     </mat-list>
 
   </div>
   <div>
-    <app-list-location travauxId="{{travauxId}}"></app-list-location>
+    <app-list-location travauxId="{{travauxId}}" *ngIf="edit==0"></app-list-location>
   </div>
 </div>
 <div>

@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {Subscription} from "rxjs";
+import {Travaux} from "../../../../model/travaux";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {SteTravauxService} from "../../../../service/ste-travaux.service";
+import {MediaChange, MediaObserver} from "@angular/flex-layout";
+import {switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-edit-paie-loyer',
@@ -7,26 +12,38 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./edit-paie-loyer.component.scss']
 })
 export class EditPaieLoyerComponent implements OnInit {
-  loyerForm: FormGroup;
-  editMode = false;
+  name: any;
+  id: number;
+  edit: number;
+  devicesXs: boolean;
+  mediaSub: Subscription;
+  travaux: Travaux;
+  travauxId: number;
+  solde: number;
+  total: number;
+  panelOpenState = false;
+  constructor(private route: ActivatedRoute,
+              private travauxService: SteTravauxService, private  router: Router,
+              private mediaObserver: MediaObserver) {
 
-  constructor(private  fb: FormBuilder) { }
+  }
 
   ngOnInit(): void {
-    this.initForm();
-  }
-
-  initForm(){
-    this.loyerForm =  this.fb.group({
-
-      montant: '',
-      site: '',
-
+    this.mediaSub = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        console.log(result.mqAlias);
+        this.devicesXs = result.mqAlias === 'xs' ? true : false;
+      });
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) =>
+        this.travauxService.getTravauxById(+params.get('id')))
+    ).subscribe(result => {
+      this.travaux = result.body;
+      this.travauxId = result.body.id;
     });
   }
-  onSubmit(){
-    const  formValue = this.loyerForm.value;
-    console.log(formValue);
 
+  loyer() {
+    this.edit = 0;
   }
 }

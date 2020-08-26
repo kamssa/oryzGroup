@@ -1,6 +1,7 @@
 export  class Site {
 
   constructor(
-    public nom?: string) {
+    public nom?: string,
+    public pathPhoto?: string[]) {
   }
 }

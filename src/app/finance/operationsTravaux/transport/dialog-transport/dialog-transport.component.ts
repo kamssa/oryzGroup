@@ -1,11 +1,11 @@
 import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {DetailAchatTravaux} from "../../../../model/DtailAchat";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {AchatTravaux} from "../../../../model/AchatTravaux";
-import {AchatTravauxService} from "../../../../service/achat-travaux.service";
+import {DetailTransport} from "../../../../model/DetailTransport";
+import {TransportService} from "../../../../service/transport.service";
+
 
 @Component({
   selector: 'app-dialog-transport',
@@ -13,29 +13,33 @@ import {AchatTravauxService} from "../../../../service/achat-travaux.service";
   styleUrls: ['./dialog-transport.component.scss']
 })
 export class DialogTransportComponent implements OnInit {
-  displayedColumns: string[] = ['materiaux', 'prix_unitaire', 'quantite', 'frais', 'montant', 'fournisseur', 'details', 'update', 'delete'];
-  dataSource: MatTableDataSource<DetailAchatTravaux>;
+  displayedColumns: string[] = ['libelle' , 'montant', 'update', 'delete'];
+  dataSource: MatTableDataSource<DetailTransport>;
   receptacle: any = [];
-  detailAchatTravaux: DetailAchatTravaux[] = [];
+  detailTransport: DetailTransport[] = [];
+  transportId: number;
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  constructor(private serviceAchat: AchatTravauxService,
-              @Inject(MAT_DIALOG_DATA) public data: AchatTravaux) {
-    console.log('constructor', data['achatTravaux']);
-    this.serviceAchat.getAchatTravauxById(data['achatTravaux']).subscribe(result => {
+  constructor(private transportService: TransportService,
+              @Inject(MAT_DIALOG_DATA) public data: Transport) {
+    this.transportId = data['transport'];
+    this.transportService.getTransportById(data['transport']).subscribe(result => {
       console.log('resultat retourne', result);
-      this.detailAchatTravaux = result.body.detailAchatTravaux;
+      this.detailTransport = result.body.detailTransport;
 
-      this.detailAchatTravaux.forEach(value => {
+      this.detailTransport.forEach(value => {
         console.log(value);
-        let opp : AchatTravaux = value;
+        let opp : DetailTransport = value;
         // this.dataSource = opp;
         this.receptacle.push(opp);
 
       });
       this.dataSource = this.receptacle;
+      this.dataSource = new MatTableDataSource<DetailTransport>(this.receptacle);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
 
   }
@@ -55,6 +59,9 @@ export class DialogTransportComponent implements OnInit {
 
   redirectToDelete(id: number) {
     console.log(id);
+    this.transportService.supprimerDetail(this.transportId, id).subscribe( data => {
+      console.log('opération reussi', data);
+    });
   }
 
   public doFilter(event: Event){

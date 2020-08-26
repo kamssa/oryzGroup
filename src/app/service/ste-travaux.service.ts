@@ -6,14 +6,14 @@ import {HttpClient} from "@angular/common/http";
 import {catchError, map, tap} from "rxjs/operators";
 import {environment} from "../../environments/environment";
 import {MessageService} from "./message.service";
+import {AchatTravaux} from "../model/AchatTravaux";
+import {Photo} from "../model/Photo";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SteTravauxService {
-  private urlTravaux = 'http://localhost:8080/api/travaux';
-  private urlRecherche = 'http://localhost:8080/api/rechemc/?mc=';
-
+  urlPhoto = 'http://localhost:8080/api/travauxPhoto';
   // observables sources
   private travauxCreerSource = new Subject<Resultat<Travaux>>();
   private travauxModifSource = new Subject<Resultat<Travaux>>();
@@ -31,7 +31,7 @@ export class SteTravauxService {
   }
 
   getAllTravaux(): Observable<Resultat<Travaux[]>> {
-    return this.http.get<Resultat<Travaux[]>>(this.urlTravaux);
+    return this.http.get<Resultat<Travaux[]>>(`${environment.apiUrl}/api/travaux`);
   }
 
   ajoutTravaux(travaux: Travaux): Observable<Resultat<Travaux>> {
@@ -40,13 +40,13 @@ export class SteTravauxService {
   }
 
   modifierTravaux(travauxModif: Travaux): Observable<Resultat<Travaux>> {
-    return this.http.put<Resultat<Travaux>>(this.urlTravaux, travauxModif);
+    return this.http.put<Resultat<Travaux>>(`${environment.apiUrl}/api/travaux`, travauxModif);
   }
   getTravauxById(id: number): Observable<Resultat<Travaux>> {
-    return this.http.get<Resultat<Travaux>>(`${this.urlTravaux}/${id}`);
+    return this.http.get<Resultat<Travaux>>(`${environment.apiUrl}/api/travaux/${id}`);
   }
   rechercheTravauxParMc(mc: string): Observable<Array<Travaux>> {
-    return this.http.get<Resultat<Array<Travaux>>>(`${this.urlRecherche}${mc}`)
+    return this.http.get<Resultat<Array<Travaux>>>(`${environment.apiUrl}/api/rechemc/?mc=${mc}`)
       .pipe(map(res => res.body,
         tap(res =>
           this.log(`travaux trouve =${res}`))),
@@ -56,9 +56,19 @@ export class SteTravauxService {
   }
   // supprimer un travail
   supprimerTravaux(id: number): Observable<Resultat<boolean>> {
-    return this.http.delete<Resultat<boolean>> (`${this.urlTravaux}/${id}`);
+    return this.http.delete<Resultat<boolean>> (`${environment.apiUrl}/api/travaux/${id}`);
+  }
+  getPhotoByIdTravaux(id: number): Observable<Resultat<Photo[]>> {
+    return this.http.get<Resultat<Photo[]>>(`${environment.apiUrl}/api/photo/${id}`);
   }
 
+  public upload(formData, id) {
+    console.log('dans le service', formData);
+    return this.http.post<any>(`${environment.apiUrl}/api/travauxPhoto/?id=${id}`, formData,   {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
 
    travauxCreer(res: Resultat<Travaux>) {
     console.log('Travail a ete  creer correctement essaie source');

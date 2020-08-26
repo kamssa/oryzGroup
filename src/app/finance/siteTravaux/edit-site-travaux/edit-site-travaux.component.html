@@ -34,22 +34,22 @@
     <br>
     <div class="well">
       <div class="container">
-        <form [formGroup]="createSiteForm" autocomplete="off" novalidate (ngSubmit)="createSiteChantier(createSiteForm.value)" fxLayout="column wrap"
+        <form class="example-form" [formGroup]="createSiteForm" autocomplete="off" novalidate (ngSubmit)="createSiteChantier(createSiteForm.value)" fxLayout="column wrap"
               fxLayoutAlign="center center" fxLayoutGap="10px">
           <mat-card-title>NOUVEAU CHANTIER</mat-card-title>
           <mat-card-content>
             <div formGroupName="site">
-            <mat-form-field>
+            <mat-form-field class="example-full-width">
               <input matInput type="text" placeholder="Nom de la ville" formControlName="nom" id="nom">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
             </mat-form-field>
             </div>
-            <mat-form-field>
+            <mat-form-field class="example-full-width">
               <input matInput type="text" placeholder="Nom du chantier" formControlName="nomChantier" id="nomChantier">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
               <mat-error *ngIf="hasError('nomChantier', 'required')">Champ obligatoire</mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="example-full-width">
               <input matInput type="text" placeholder="Numero du bon" formControlName="numeroBon" id="numeroBon">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
               <mat-error *ngIf="hasError('numeroBon', 'required')">Champ obligatoire</mat-error>
@@ -59,16 +59,22 @@
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
               <mat-error *ngIf="hasError('accompte', 'required')">Champ obligatoire</mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="example-full-width">
               <input matInput type="text" placeholder="Budget" formControlName="budget" id="budget">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
               <mat-error *ngIf="hasError('budget', 'required')">Champ obligatoire</mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="example-full-width">
               <input matInput [matDatepicker]="picker" placeholder="Choisir la date de debut du chantier" formControlName="date" id="date"
                      readonly (click)="picker.open()">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="pickers" placeholder="Choisir la date de livraison" formControlName="dateLivraison" id="dateL"
+                     readonly (click)="pickers.open()">
+              <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+              <mat-datepicker #pickers></mat-datepicker>
             </mat-form-field>
 
           </mat-card-content>

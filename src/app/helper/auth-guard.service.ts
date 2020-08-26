@@ -18,14 +18,13 @@ export class AuthGuardService implements  CanActivate {
     const isExpireToken = this.helper.isTokenExpired(currentUser);
     if (currentUser && !isExpireToken) {
       // logged in so return true
-      //console.log(currentUser);
-
+       // console.log('guard', currentUser);
+      // this.router.navigate(['/accueil']);
       return true;
-
     }
 
     // not logged in so redirect to login page with the return url
-    this.router.navigate(['/connexion'], { queryParams: { returnUrl: state.url } });
+    // this.router.navigate(['/connexion'], { queryParams: { returnUrl: state.url } });
     return false;
   }
 }

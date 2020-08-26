@@ -3,84 +3,100 @@
     <div class="">
       <mat-card>
         <mat-card-header>
-          <mat-card-title> modifier un achat ou une location pour les travaux</mat-card-title>
+          <mat-card-title> modifier une main d'oeuvre pour les travaux</mat-card-title>
           <mat-card-subtitle></mat-card-subtitle>
         </mat-card-header>
-        <form [formGroup]="mainOuvreForm" (ngSubmit)="onSubmit()" novalidate *ngIf="mainOuvreForm">
-          <mat-form-field>
-            <input matInput placeholder="Site" formControlName="site">
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Travaux" formControlName="travaux">
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Libelle" formControlName="libelle">
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="quantite" formControlName="quantite">
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="prix" formControlName="prix">
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="montant" formControlName="montant">
-          </mat-form-field>
-          <hr>
-          <div>
-            <button mat-raised-button color="primary" type="submit"> Modifier
-            </button>
-            <button mat-raised-button color="accent" type="button">Annuler
-            </button>
+        <form class="example-form" [formGroup]="mainOuvreForm" (ngSubmit)="onSubmit()" novalidate *ngIf="mainOuvreForm">
+          <div class="well">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title></mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+              </mat-card-header>
+              <div class="achat">
+                <div class="row">
+                  <div formArrayName="detailMainOeuvre">
+                    <div *ngFor="let itemrow of mainOuvreForm.controls.detailMainOeuvre['controls']; let i=index"
+                         [formGroupName]="i">
+
+                      <mat-form-field class="example-full-width" formGroupName="employe">
+                        <input matInput placeholder="Nom" formControlName="nom">
+                      </mat-form-field>
+                      <mat-form-field class="example-full-width">
+                        <input #value matInput type="number" placeholder="Montant verse" formControlName="montantVerser">
+                      </mat-form-field>
+                      <mat-form-field class="example-full-width">
+                        <input  #quantite type="number" matInput placeholder="Salaire" formControlName="salaire">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                  <button mat-raised-button class="boutonEnr" type="submit"> Enregistrer
+                  </button>
+                  <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler
+                  </button>
+                </div>
+              </div>
+
+            </mat-card>
           </div>
         </form>
       </mat-card>
     </div>
   </div>
   <ng-template #newAchat>
-    <mat-card> Effectuer un nouvel achat  pour les travaux</mat-card>
-    <br>
-    <div class="well">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title></mat-card-title>
-          <mat-card-subtitle></mat-card-subtitle>
-        </mat-card-header>
-        <form [formGroup]="mainOuvreForm" (ngSubmit)="onSubmit()" novalidate>
+    <form class="example-form" [formGroup]="mainOuvreForm" (ngSubmit)="onSubmit()" novalidate>
+      <mat-card> Payer une main d'oeuvre</mat-card>
+
+      <br>
+      <div class="well">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title></mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+          </mat-card-header>
           <div class="achat">
-            <mat-form-field>
-              <mat-select placeholder="Titre" formControlName="titre">
-                <mat-option *ngFor="let t of titres" [value]=t.name>
-                  {{t.libelle}}
-                </mat-option>
-
-              </mat-select>
-
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput placeholder="materiel" formControlName="materiel">
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput placeholder="quantite" formControlName="quantite">
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput placeholder="prix unitaire" formControlName="prix">
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput type="number" placeholder="montant" formControlName="montant">
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput placeholder="fournisseur" formControlName="fournisseur">
-            </mat-form-field>
+            <div class="row">
+              <div formArrayName="detailMainOeuvre">
+                <div *ngFor="let itemrow of mainOuvreForm.controls.detailMainOeuvre['controls']; let i=index"
+                     [formGroupName]="i">
+                  <mat-action-row>
+                    <button type="button" mat-mini-fab color="warn" (click)="deleteRow(i)">
+                      <mat-icon class="material-icons">delete</mat-icon>
+                    </button>
+                  </mat-action-row>
+                  <mat-form-field class="example-full-width" formGroupName="employe">
+                    <input matInput placeholder="Nom" formControlName="nom">
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width">
+                    <input #value matInput type="number" placeholder="Montant verse" formControlName="montantVerser">
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width">
+                    <input  #quantite type="number" matInput placeholder="Salaire" formControlName="salaire">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <mat-action-row>
+              <button type="button" mat-raised-button color="warn" (click)="addNewRows()">
+                <span class="material-icons">add</span>
+              </button>
+            </mat-action-row>
+            <hr>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <button mat-raised-button class="boutonEnr" type="submit"> Enregistrer
+              </button>
+              <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler
+              </button>
+            </div>
           </div>
-          <div fxLayout="row" fxLayoutAlign="space-between">
-            <button mat-raised-button class="boutonEnr" type="submit"> Enregistrer
-            </button>
-            <button mat-raised-button class="boutonAnn" type="button" type="reset" >Annuler
-            </button>
-          </div>
-        </form>
-      </mat-card>
-    </div>
+
+        </mat-card>
+      </div>
+    </form>
   </ng-template>
 </div>
 

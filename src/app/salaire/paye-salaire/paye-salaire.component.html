@@ -1,0 +1,16 @@
+<mat-card> EECTUER LE PAIEMENT DE SALAIRE</mat-card>
+<mat-divider></mat-divider>
+<br>
+<mat-card>
+  <form class="example-form" [formGroup]="salaireForm" (ngSubmit)="onSubmit(salaireForm.value)">
+    <mat-form-field class="example-full-width">
+      <mat-label>Montant</mat-label>
+      <input matInput placeholder="" value="">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Motif</mat-label>
+      <input matInput placeholder="" value="">
+    </mat-form-field>
+    <button type="submit" class="btn btn-primary">Valider</button>
+  </form>
+</mat-card>

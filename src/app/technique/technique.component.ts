@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery-9';
 
 @Component({
   selector: 'app-technique',
@@ -6,10 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./technique.component.scss']
 })
 export class TechniqueComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+constructor() {
+}
+ngOnInit(): void {
+}
 }

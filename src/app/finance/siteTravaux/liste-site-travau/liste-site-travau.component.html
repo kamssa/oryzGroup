@@ -3,11 +3,8 @@
     <div class="listes">
       <div class="item">
         <mat-sidenav-container class="contsidnav">
-
           <div *ngIf="statut ===0; else ensVide">
-
             <div class="card">
-
               <mat-card class="mat-card" matTooltip="Selectioner un site pour les details">
                 <div>
                   <mat-form-field style="width: 100%">
@@ -25,37 +22,29 @@
                       </div>
                     </a>
                     <div  fxLayout="row" fxLayoutAlign="space-around center">
-                      <button  mat-button color="primary" (click)="onAchat(tr)">Achat</button>
-                      <button  mat-button color="primary" (click)="onLocation(tr)">Location</button>
-                      <button  mat-button color="primary" (click)="onSalaire(tr)">Salaire</button>
+                      <button  mat-button color="primary" (click)="onAchat(tr)">Liste Achat</button>
+                      <button  mat-button color="primary" (click)="onLocation(tr)">Liste Location</button>
+                      <button  mat-button color="primary" (click)="onLoyer(tr)">Liste Loyer</button>
                       <button  mat-icon-button [matMenuTriggerFor]="menu">
                         <mat-icon>more_vert</mat-icon>
-                      </button >
+                      </button>
                       <mat-menu #menu = "matMenu" yPosition="above">
-                        <button mat-menu-item (click)="onLoyer(tr)">
-                          <span>Loyer</span>
-                        </button>
                         <button mat-menu-item (click)="onOeuvre(tr)">
-                          <span>Main d'oeuvre</span>
+                          <span>Liste Main d'oeuvre</span>
                         </button>
                         <button mat-menu-item (click)="onTransport(tr)">
-                          <span>Transport</span>
+                          <span>Liste Transport</span>
                         </button>
                           <button mat-menu-item (click)="onAutres(tr)">
-                            <span>Autres</span>
+                            <span>Liste Autres</span>
                           </button>
                       </mat-menu>
                     </div>
                   </div>
-
                 </div>
               </mat-card>
-
-
             </div>
-
           </div>
-
           <div>
             <ng-template #ensVide>
               <mat-card>
@@ -66,7 +55,6 @@
                       <h6> <div class="alert alert-warning" *ngIf="messageServiceErreur"> {{messageServiceErreur}}</div></h6>
                     </mat-chip>
                   </mat-chip-list>
-
                 </mat-card-title>
               </mat-card>
             </ng-template>

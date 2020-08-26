@@ -48,8 +48,7 @@ export class EditTransportComponent implements OnInit {
       this.travaux = res.body;
     });
   }
-
-  location() {
+  transport() {
     this.edit = 0;
   }
 }

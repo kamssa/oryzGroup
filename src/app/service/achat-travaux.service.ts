@@ -12,9 +12,6 @@ import {AchatTravaux} from "../model/AchatTravaux";
   providedIn: 'root'
 })
 export class AchatTravauxService {
-  private urlAchat = 'http://localhost:8080/api/achat';
-  private urlAchats = 'http://localhost:8080/api/achats';
-
 
   // observables sources
   private travauxCreerSource = new Subject<Resultat<AchatTravaux>>();
@@ -33,29 +30,40 @@ export class AchatTravauxService {
   }
 
   getAllTravaux(): Observable<Resultat<AchatTravaux[]>> {
-    return this.http.get<Resultat<AchatTravaux[]>>(this.urlAchat);
+    return this.http.get<Resultat<AchatTravaux[]>>(`${environment.apiUrl}/api/achat`);
   }
 
   ajoutAchatTravaux(achatTravaux: AchatTravaux): Observable<Resultat<AchatTravaux>> {
     console.log('methode du service qui ajoute un achat', achatTravaux);
     return this.http.post<Resultat<AchatTravaux>>(`${environment.apiUrl}/api/achat`, achatTravaux);
   }
+  modifAchatTravaux(achatTravaux: AchatTravaux): Observable<Resultat<AchatTravaux>> {
+    console.log('methode du service qui modifie un achat', achatTravaux);
+    return this.http.put<Resultat<AchatTravaux>>(`${environment.apiUrl}/api/achat`, achatTravaux);
+  }
 
   getAchatTravauxById(id: AchatTravaux): Observable<Resultat<AchatTravaux>> {
-    return this.http.get<Resultat<AchatTravaux>>(`${this.urlAchats}/${id}`);
+    return this.http.get<Resultat<AchatTravaux>>(`${environment.apiUrl}/api/achats/${id}`);
   }
 
 // recuperer achat par id travaux
   getAchatTravauxByTravaux(id: number): Observable<AchatTravaux[]> {
     // @ts-ignore
-    return this.http.get<Resultat<AchatTravaux[]>>(`${this.urlAchat}/${id}`)
+    return this.http.get<Resultat<AchatTravaux[]>>(`${environment.apiUrl}/api/achat/${id}`)
       .pipe(map(res => res.body,
         tap(res =>
           this.log(`travaux trouve =${res}`))),
         catchError(this.handleError<Resultat<AchatTravaux[]>>('getAchatTravauxByTravaux'))
       );
   }
+  supprimerUnAchat(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/api/achat/${id}`);
 
+  }
+  supprimerDetail(id: number, idDetail: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/api/DeleteDetail/${id}/${idDetail}`);
+
+  }
   travauxCreer(res: Resultat<AchatTravaux>) {
     console.log('Travail a ete  creer correctement essaie source');
     this.travauxCreerSource.next(res);

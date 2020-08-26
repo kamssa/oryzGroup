@@ -1,5 +1,6 @@
 <div *ngIf="travaux">
-  <mat-accordion>
+
+  <mat-accordion class="example-headers-align">
     <mat-expansion-panel (opened)="panelOpenState = true"
                          (closed)="panelOpenState = false">
       <mat-expansion-panel-header>
@@ -26,7 +27,7 @@
   <div class="div-second">
     <mat-list>
       <mat-list-item>
-        <button mat-button (click)="location()" color="accent">Location</button>
+        <button mat-button (click)="location()" color="accent">La liste des Locations</button>
       </mat-list-item>
 
     </mat-list>

@@ -86,7 +86,6 @@ export class ManageSiteTravauxComponent implements OnInit {
          this.messageServiceErreur = msg.toString();
          this.closeMessage();
        }
-
      );*/
   }
   initForm(): void {

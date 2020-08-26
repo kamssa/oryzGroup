@@ -1,11 +1,12 @@
 import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {DetailAchatTravaux} from "../../../../model/DtailAchat";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {AchatTravauxService} from "../../../../service/achat-travaux.service";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {AchatTravaux} from "../../../../model/AchatTravaux";
+import {DetailLocation} from "../../../../model/DetailLocation";
+import {LocationService} from "../../../../service/location.service";
+import {LocationTravaux} from "../../../../model/LocationTravaux";
 
 @Component({
   selector: 'app-dialog-location',
@@ -13,29 +14,32 @@ import {AchatTravaux} from "../../../../model/AchatTravaux";
   styleUrls: ['./dialog-location.component.scss']
 })
 export class DialogLocationComponent implements OnInit {
-  displayedColumns: string[] = ['materiaux', 'prix_unitaire', 'quantite', 'frais', 'montant', 'fournisseur', 'details', 'update', 'delete'];
-  dataSource: MatTableDataSource<DetailAchatTravaux>;
+  displayedColumns: string[] = ['materiaux', 'montant', 'fournisseur', 'update', 'delete'];
+  dataSource: MatTableDataSource<DetailLocation>;
   receptacle: any = [];
-  detailAchatTravaux: DetailAchatTravaux[] = [];
+  locationId: number;
+  detailLocation: DetailLocation[] = [];
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  constructor(private serviceAchat: AchatTravauxService,
+  constructor(private locationService: LocationService,
               @Inject(MAT_DIALOG_DATA) public data: AchatTravaux) {
-    console.log('constructor', data['achatTravaux']);
-    this.serviceAchat.getAchatTravauxById(data['achatTravaux']).subscribe(result => {
+      this.locationId = data['locationTravaux'];
+    this.locationService.getLocationById(data['locationTravaux']).subscribe(result => {
       console.log('resultat retourne', result);
-      this.detailAchatTravaux = result.body.detailAchatTravaux;
+      this.detailLocation = result.body.detailLocation;
 
-      this.detailAchatTravaux.forEach(value => {
+      this.detailLocation.forEach(value => {
         console.log(value);
-        let opp : AchatTravaux = value;
-        // this.dataSource = opp;
+        let opp : LocationTravaux = value;
         this.receptacle.push(opp);
 
       });
       this.dataSource = this.receptacle;
+      this.dataSource = new MatTableDataSource<DetailLocation>(this.receptacle);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
 
   }
@@ -55,10 +59,12 @@ export class DialogLocationComponent implements OnInit {
 
   redirectToDelete(id: number) {
     console.log(id);
+    this.locationService.supprimerDetail(this.locationId, id).subscribe( data => {
+      console.log('opération reussi', data);
+    });
   }
 
   public doFilter(event: Event){
-    // this.dataSource.filter = value.trim().toLocaleLowerCase();
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

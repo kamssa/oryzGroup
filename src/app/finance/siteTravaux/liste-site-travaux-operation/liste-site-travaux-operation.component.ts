@@ -45,20 +45,11 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
       this.travaux = result.body;
       console.log(this.travaux);
       this.travauxId = result.body.id;
-      this.achatTravauxService.getAchatTravauxByTravaux(this.travauxId).subscribe( resultat => {
-        const valeurInitiale = 0;
-
-      });
     });
   }
   achat() {
     this.edit = 0;
   }
-
-  salaire() {
-    this.edit = 1;
-  }
-
   loyer() {
     this.edit = 4;
   }
@@ -79,7 +70,7 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
     this.edit = 2;
   }
 
-  montantChange($event: number) {
+  montantChange($event) {
     this.montant = $event;
     console.log('voir le output' , this.montant);
     if ($event){

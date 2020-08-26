@@ -49,7 +49,7 @@ export class EditAutreDepenseComponent implements OnInit {
     });
   }
 
-  location() {
+  autre() {
     this.edit = 0;
   }
 }

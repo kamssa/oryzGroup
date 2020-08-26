@@ -73,7 +73,7 @@ export class EditSiteTravauxComponent implements OnInit {
       numeroBon: createSiteFormValue.numeroBon,
       budget: createSiteFormValue.budget,
       date: createSiteFormValue.date,
-      dateLivraison: createSiteFormValue.date,
+      dateLivraison: createSiteFormValue.dateLivraison,
       site: createSiteFormValue.site
     };
 

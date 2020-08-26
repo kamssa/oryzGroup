@@ -1,0 +1,41 @@
+<mat-toolbar>
+  <div class="example-button-row">
+    <button mat-button>Tous</button>
+    <button mat-button color="accent">Retrait</button>
+    <button mat-button color="accent">Versement</button>
+    <button mat-button color="accent">Date</button>
+    <button mat-button color="accent">Banque</button>
+  </div>
+</mat-toolbar>
+<mat-divider></mat-divider>
+<br>
+<mat-card>
+  <mat-card-header>Enregistrer une opération</mat-card-header>
+  <form class="example-form" [formGroup]="banqueForm" (ngSubmit)="onSubmit(banqueForm.value)">
+    <mat-form-field class="example-full-width" appearance="fill" formGroupName="banque">
+      <mat-label>Selection une banque</mat-label>
+      <mat-select formControlName="nom">
+        <mat-option *ngFor="let b of banques" [value]="b">
+          {{b}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Selectinner opération</mat-label>
+      <mat-select formControlName="libelle">
+        <mat-option *ngFor="let lib of libelles" [value]="lib">
+          {{lib}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Montant</mat-label>
+      <input matInput placeholder="" value="" formControlName="montant">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Motif</mat-label>
+      <input matInput placeholder="" value="" formControlName="motif">
+    </mat-form-field>
+    <button type="submit" class="btn btn-primary">Valider</button>
+  </form>
+</mat-card>

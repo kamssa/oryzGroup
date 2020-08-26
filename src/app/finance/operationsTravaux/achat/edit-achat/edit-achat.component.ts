@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {Travaux} from '../../../../model/travaux';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {SteTravauxService} from '../../../../service/ste-travaux.service';

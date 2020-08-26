@@ -7,14 +7,12 @@ import {MessageService} from "./message.service";
 import {environment} from "../../environments/environment";
 import {catchError, map, tap} from "rxjs/operators";
 import {LocationTravaux} from "../model/LocationTravaux";
+import {Autres} from "../model/Autres";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
-  private urlLocation = 'http://localhost:8080/api/location';
-
-
   // observables sources
   private travauxCreerSource = new Subject<Resultat<LocationTravaux>>();
   private travauxModifSource = new Subject<Resultat<LocationTravaux>>();
@@ -32,18 +30,32 @@ export class LocationService {
   }
 
   getAllTravaux(): Observable<Resultat<LocationTravaux[]>> {
-    return this.http.get<Resultat<LocationTravaux[]>>(this.urlLocation);
+    return this.http.get<Resultat<LocationTravaux[]>>(`${environment.apiUrl}/api/location`);
   }
 
   ajoutLocationTravaux(location: LocationTravaux): Observable<Resultat<AchatTravaux>> {
     console.log('methode du service qui ajoute une location', location);
     return this.http.post<Resultat<LocationTravaux>>(`${environment.apiUrl}/api/location`, location);
   }
+  modifLocationTravaux(location: LocationTravaux): Observable<Resultat<LocationTravaux>> {
+    console.log('methode du service qui modifier location', location);
+    return this.http.put<Resultat<LocationTravaux>>(`${environment.apiUrl}/api/location`, location);
+  }
+  getLocationById(id: Autres): Observable<Resultat<LocationTravaux>> {
+    return this.http.get<Resultat<LocationTravaux>>(`${environment.apiUrl}/api/locations/${id}`);
+  }
+  supprimerLocation(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/api/location/${id}`);
 
-// recuperer achat par id travaux
+  }
+  supprimerDetail(id: number, idDetail: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/api/DeleteDetailLocation/${id}/${idDetail}`);
+
+  }
+// recuperer location par id travaux
   getLocationByTravaux(id: number): Observable<LocationTravaux[]> {
     // @ts-ignore
-    return this.http.get<Resultat<LocationTravaux[]>>(`${this.urlLocation}/${id}`)
+    return this.http.get<Resultat<LocationTravaux[]>>(`${environment.apiUrl}/api/location/${id}`)
       .pipe(map(res => res.body,
         tap(res =>
           this.log(`location trouve =${res}`))),

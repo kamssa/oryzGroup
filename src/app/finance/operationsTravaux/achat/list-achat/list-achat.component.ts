@@ -7,6 +7,7 @@ import {DetailAchatTravaux} from '../../../../model/DtailAchat';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from "@angular/material/dialog";
 import {DatailAchatDialogComponent} from "../dialogue/datail-achat-dialog/datail-achat-dialog.component";
+import {EditAchatTravauxComponent} from "../edit-achat-travaux/edit-achat-travaux.component";
 
 @Component({
   selector: 'app-list-achat',
@@ -26,7 +27,7 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
                public dialog: MatDialog) {
    }
   ngAfterViewInit(): void {
-   // this.dataSource.sort = this.sort;
+
   }
   ngOnInit() {
       console.log(this.travauxId);
@@ -34,25 +35,19 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
         .subscribe( data => {
           this.achats = data;
           console.log(data);
-         /* this.achats.forEach(value => {
-          console.log('Voir', value.detailAchatTravaux);
-          let opp : AchatTravaux[] = value.detailAchatTravaux;
-          this.receptacle.push(opp[0]);*/
-        //});
-        //this.dataSource = this.receptacle;
-       // this.achats = data;
-        console.log(this.achats);
+          console.log(this.achats);
         this.achats.forEach(value => {
           console.log(value);
           let opp : AchatTravaux = value;
-         // this.dataSource = opp;
+
           this.receptacle.push(opp);
-
         });
-
-        // this.receptacle.push([0]);
-        this.dataSource = this.receptacle;
+          this.dataSource = this.receptacle;
+          this.dataSource = new MatTableDataSource<AchatTravaux>(this.receptacle);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
       });
+
    }
   redirectToDetails(id: number){
     console.log(id);
@@ -60,16 +55,25 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
 
   redirectToUpdate(id: number) {
     console.log(id);
+    this.dialog.open(EditAchatTravauxComponent,{
+      data: {
+        achatTravaux: id
+      }
+    });
   }
 
   redirectToDelete(id: number) {
-    console.log(id);
+    if (confirm("Voulez vous vraiment supprimer l'achat ")) {
+      this.serviceAchat.supprimerUnAchat(id).subscribe(data => {
+      //console.log('Voir la suppression', data);
+    });
+    }
   }
 
   public doFilter(event: Event){
-    // this.dataSource.filter = value.trim().toLocaleLowerCase();
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
   }
 
   openDialog(id: number) {

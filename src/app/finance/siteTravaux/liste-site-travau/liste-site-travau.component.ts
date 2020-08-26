@@ -138,9 +138,7 @@ export class ListeSiteTravauComponent implements OnInit {
       this.messageServiceErreur = '';
     }, 5000);
   }
-  /*detailAchat(travail: Travaux){
-    this.router.navigate(['site/liste/detail', this.selectedTravaux.id]);
-  }*/
+
   onAchat(travail: Travaux) {
     this.router.navigate(['site/liste/achat', travail.id]);
   }
@@ -150,10 +148,6 @@ export class ListeSiteTravauComponent implements OnInit {
 
   }
 
-  onSalaire(travail: Travaux) {
-    this.router.navigate(['site/liste/salaire', travail.id]);
-
-  }
 
   onLoyer(travail: Travaux) {
     this.router.navigate(['site/liste/loyer', travail.id]);

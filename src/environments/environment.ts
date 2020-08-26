@@ -4,10 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080',
-  urlTravaux: 'http://localhost:8080',
-  urlAchat: 'http://localhost:8080',
-  urlLocation: 'http://localhost:8080'
+  apiUrl: 'http://192.168.1.164:8080'
 };
 
 /*
