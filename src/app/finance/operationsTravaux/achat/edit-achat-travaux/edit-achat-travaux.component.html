@@ -82,7 +82,7 @@
                     <input  #frais type="number" matInput placeholder="frais" formControlName="frais">
                   </mat-form-field>
                   <mat-form-field>
-                    <input matInput #montant  placeholder="{{montantdetail|| 'montant'}}" formControlName="montant" value="montant" >
+                    <input matInput  #montant  placeholder="montant" formControlName="montant"  onfocus="this.value= getCalcul();" onblur="this.value='Cliquez ici !';" >
                   </mat-form-field>
 
                   <mat-form-field  class="example-full-width" formGroupName="fournisseur">
@@ -104,9 +104,7 @@
               </button>
             </div>
           </div>
-
         </mat-card>
-
       </div>
     </form>
   </ng-template>

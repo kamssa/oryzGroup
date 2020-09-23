@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {ConnexionComponent} from './connexion/connexion/connexion.component';
 import {FinanceComponent} from './finance/finance.component';
 import {AccueilComponent} from './accueil/accueil.component';
 import {ManageSiteTravauxComponent} from './finance/siteTravaux/manage-site-travaux/manage-site-travaux.component';
@@ -22,14 +21,25 @@ import {AddImageComponent} from './technique/add-image/add-image.component';
 import {ManageBanqueComponent} from './banque/manage-banque/manage-banque.component';
 import {EditOperationComponent} from './banque/edit-operation/edit-operation.component';
 import {EditTransportComponent} from './finance/operationsTravaux/transport/edit-transport/edit-transport.component';
-import {ManageComponent} from "./salaire/manage/manage.component";
-import {EnregistrerEmployeComponent} from "./salaire/enregistrer-employe/enregistrer-employe.component";
-import {SalaireGesComponent} from "./salaire/salaire-ges/salaire-ges.component";
+import {ManageComponent} from './salaire/manage/manage.component';
+
+import {SalaireGesComponent} from './salaire/salaire-ges/salaire-ges.component';
+import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'accueil', pathMatch: 'full'},
-  {path: 'accueil', component: AccueilComponent},
-  { path: 'connexion', component: ConnexionComponent },
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  }, {
+    path: '',
+    component: AdminLayoutComponent,
+    children: [{
+      path: '',
+      loadChildren: './layouts/admin-layout/AdminLayoutModule.module#AdminLayoutModule'
+    }]
+  },
+  /*{path: 'accueil', component: AccueilComponent},
   { path: 'finance', component: FinanceComponent, canActivate: [AuthGuardService] },
   { path: 'technique',
     canActivate: [AuthGuardService],
@@ -130,11 +140,15 @@ const routes: Routes = [
 
     ]
   }
-
+*/
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes,
+      {
+      useHash: true
+    })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

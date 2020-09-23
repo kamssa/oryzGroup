@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
-import { ConnexionComponent } from './connexion/connexion/connexion.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MaterialModule} from './material/material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -74,6 +73,11 @@ import { ManageComponent } from './salaire/manage/manage.component';
 import { EnregistrerEmployeComponent } from './salaire/enregistrer-employe/enregistrer-employe.component';
 import { PayeSalaireComponent } from './salaire/paye-salaire/paye-salaire.component';
 import { SalaireGesComponent } from './salaire/salaire-ges/salaire-ges.component';
+import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { ConnexionComponent } from './connexion/connexion.component';
+import {ComponentsModule} from './components/components.module';
+import { UserProfilComponent } from './user-profil/user-profil.component';
+import {AdminLayoutModule} from "./layouts/admin-layout/admin-layout.module";
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {
     'pan': {
@@ -88,7 +92,6 @@ export class CustomHammerConfig extends HammerGestureConfig {
   declarations: [
     AppComponent,
     HeaderComponent,
-    ConnexionComponent,
     FinanceComponent,
     TechniqueComponent,
     AccueilComponent,
@@ -136,7 +139,9 @@ export class CustomHammerConfig extends HammerGestureConfig {
     ManageComponent,
     EnregistrerEmployeComponent,
     PayeSalaireComponent,
-    SalaireGesComponent
+    SalaireGesComponent,
+    ConnexionComponent,
+    UserProfilComponent,
   ],
   imports: [
     BrowserModule,
@@ -148,7 +153,9 @@ export class CustomHammerConfig extends HammerGestureConfig {
     ReactiveFormsModule,
     HttpClientModule,
     MatMenuModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    ComponentsModule,
+    AdminLayoutModule
 
   ],
   providers: [AuthService, AuthGuardService,

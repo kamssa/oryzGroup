@@ -1,10 +1,10 @@
-<!--<mat-toolbar color="warn">
+<mat-toolbar color="warn">
   <mat-toolbar-row fxLayoutAlign="space-between center">
     <div fxLayout="row">
       <button mat-button>
         <img class="logo" src="assets/logo/logo.png">
       </button>
-      <div *ngIf="!devicesXs">
+      <div>
         <button mat-raised-button color="warn" routerLink="finance">Gestion Financière</button>
         <button mat-raised-button color="warn" routerLink="technique">Gestion Technique</button>
         <button mat-raised-button color="warn" routerLink="banque">Banque</button>
@@ -13,20 +13,20 @@
     </div>
     <div>
       <button mat-fab color="warn">
-        <mat-icon *ngIf="devicesXs">more_vert</mat-icon>
-        <span *ngIf="!devicesXs" (click)="logout()">Logout</span>
+        <mat-icon>more_vert</mat-icon>
+        <span (click)="logout()">Logout</span>
       </button>
     </div>
 
   </mat-toolbar-row>
-  <mat-toolbar-row *ngIf="devicesXs" fxLayoutAlign="space-between end">
+  <mat-toolbar-row  fxLayoutAlign="space-between end">
     <button mat-raised-button color="warn">Accueil</button>
     <button mat-raised-button color="warn" routerLink="finance">Financière</button>
     <button mat-raised-button color="warn" routerLink="technique">Technique</button>
     <button mat-raised-button color="warn" routerLink="banque">Banque</button>
     <button mat-raised-button color="warn" routerLink="salaire">Salaire</button>
   </mat-toolbar-row>
-</mat-toolbar>-->
+</mat-toolbar>
 
 
 

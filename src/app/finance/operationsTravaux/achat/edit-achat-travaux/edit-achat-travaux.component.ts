@@ -50,6 +50,7 @@ export class EditAchatTravauxComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     if (this.data['achatTravaux']){
       this.editMode = true;
       this.achatService.getAchatTravauxById(this.data['achatTravaux'])
@@ -135,8 +136,11 @@ export class EditAchatTravauxComponent implements OnInit {
   }
 
   getCalcul() {
-    this.montantInput.nativeElement.value = this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value +
-      parseInt(this.fraisInput.nativeElement.value);
+
+      return  this.montantInput.nativeElement.value = this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value +
+        parseInt(this.fraisInput.nativeElement.value);
+      console.log(this.montant);
+
   }
 
   onSubmit() {
@@ -154,7 +158,7 @@ export class EditAchatTravauxComponent implements OnInit {
         formValue['detailAchatTravaux']);
       this.achatService.ajoutAchatTravaux(achat).subscribe(data => {
         console.log('Achat enregistrer', data.body);
-        this.montant = data.body.montant;
+        // this.montant = data.body.montant;
         console.log(data.body);
         console.log('voir le output', this.change.emit(this.montant));
 
@@ -173,9 +177,6 @@ export class EditAchatTravauxComponent implements OnInit {
      console.log('Modif effectue', data);
   });
     }
-
-
-
     this.achatTravauxForm.reset();
   }
 
